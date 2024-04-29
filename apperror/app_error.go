@@ -53,7 +53,7 @@ func NewValidationError(identifier string, messages ...string) ValidationError {
 }
 
 // Application Error
-type AppError struct {
+type Error struct {
 	code             string
 	errType          Type
 	severity         Severity
@@ -64,60 +64,60 @@ type AppError struct {
 }
 
 // Error message
-func (e AppError) Error() string {
+func (e Error) Error() string {
 	return e.message
 }
 
 // Error message
-func (e AppError) Code() string {
+func (e Error) Code() string {
 	return e.code
 }
 
 // Error message
-func (e AppError) Type() Type {
+func (e Error) Type() Type {
 	return e.errType
 }
 
 // Get the original error cause
-func (e AppError) Cause() error {
+func (e Error) Cause() error {
 	return e.cause
 }
 
 // Get the original error cause
-func (e AppError) Severity() Severity {
+func (e Error) Severity() Severity {
 	return e.severity
 }
 
 // Set the original error severity
-func (e AppError) SetSeverity(severity Severity) AppError {
+func (e Error) SetSeverity(severity Severity) Error {
 	e.severity = severity
 	return e
 }
 
 // Get the error detail
-func (e AppError) Detail() string {
+func (e Error) Detail() string {
 	return e.detail
 }
 
 // Set the erro detail
-func (e AppError) SetDetail(detail string) AppError {
+func (e Error) SetDetail(detail string) Error {
 	e.detail = detail
 	return e
 }
 
 // wrap the original error cause
-func (e AppError) Wrap(err error) AppError {
+func (e Error) Wrap(err error) Error {
 	e.cause = err
 	return e
 }
 
 // Get validation errors
-func (e AppError) ValidationErrors() ValidationErrors {
+func (e Error) ValidationErrors() ValidationErrors {
 	return e.validationErrors
 }
 
 // Add validation errors
-func (e *AppError) AddValidationError(err ValidationError) {
+func (e *Error) AddValidationError(err ValidationError) {
 	if e.validationErrors == nil {
 		e.validationErrors = make(map[string][]string)
 	}
@@ -130,8 +130,8 @@ func (e *AppError) AddValidationError(err ValidationError) {
 }
 
 // New creates a application new error
-func New(code string, errType Type, severity Severity, msg string) AppError {
-	return AppError{
+func New(code string, errType Type, severity Severity, msg string) Error {
+	return Error{
 		code:     code,
 		errType:  errType,
 		severity: severity,
@@ -140,41 +140,41 @@ func New(code string, errType Type, severity Severity, msg string) AppError {
 }
 
 // NewInternal creates an error of type internal
-func NewInternal(code string, msg string) AppError {
+func NewInternal(code string, msg string) Error {
 	return New(code, Internal, High, msg)
 }
 
 // NewValidation creates an error of type validation
-func NewValidation(code string, msg string) AppError {
+func NewValidation(code string, msg string) Error {
 	return New(code, Validation, Low, msg)
 }
 
 // NewNotFound creates an error of type not found
-func NewNotFound(code string, msg string) AppError {
+func NewNotFound(code string, msg string) Error {
 	return New(code, NotFound, Low, msg)
 }
 
 // NewPermission creates an error of type permission
-func NewPermission(code string, msg string) AppError {
+func NewPermission(code string, msg string) Error {
 	return New(code, Permission, Low, msg)
 }
 
 // NewUnauthorized creates an error of type unauthorized
-func NewUnauthorized(code string, msg string) AppError {
+func NewUnauthorized(code string, msg string) Error {
 	return New(code, Unauthorized, Low, msg)
 }
 
 // NewConflict creates an error of type conflict
-func NewConflict(code string, msg string) AppError {
+func NewConflict(code string, msg string) Error {
 	return New(code, Conflict, Low, msg)
 }
 
 // NewTimeout creates an error of type timeout
-func NewTimeout(code string, msg string) AppError {
+func NewTimeout(code string, msg string) Error {
 	return New(code, Timeout, Low, msg)
 }
 
 // NewCancelled creates an error of type cancelled
-func NewCancelled(code string, msg string) AppError {
+func NewCancelled(code string, msg string) Error {
 	return New(code, Cancelled, Low, msg)
 }

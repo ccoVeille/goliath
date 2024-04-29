@@ -43,8 +43,8 @@ func (pd ProblemDetails) Error() string {
 
 const UnknownErrorType = "internal_error"
 
-func New(ctx appcontext.AppContext, err error, instance string) ProblemDetails {
-	appError, ok := err.(apperror.AppError)
+func New(ctx appcontext.Context, err error, instance string) ProblemDetails {
+	appError, ok := err.(apperror.Error)
 
 	if !ok {
 		return ProblemDetails{
@@ -67,7 +67,7 @@ func New(ctx appcontext.AppContext, err error, instance string) ProblemDetails {
 	}
 }
 
-func mapAppErrorToHttpStatusCode(appError apperror.AppError) int {
+func mapAppErrorToHttpStatusCode(appError apperror.Error) int {
 	switch appError.Type() {
 	case apperror.Validation:
 		return http.StatusBadRequest

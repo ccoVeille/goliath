@@ -64,5 +64,5 @@ func TestAppContextCancellation(t *testing.T) {
 
 	cancel()
 
-	assert.Equal(t, context.Canceled, ctx.Context().Err())
+	assert.Equal(t, context.Canceled, ctx.Err())
 }
