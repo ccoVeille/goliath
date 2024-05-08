@@ -1,4 +1,4 @@
-package appcontext
+package app
 
 import (
 	"context"
@@ -14,7 +14,7 @@ const (
 	TenantIDKey ContextKey = "tenant_id"
 )
 
-// AppContext carries the context of the current execution.
+// Context carries the context of the current execution.
 type Context struct {
 	// original context
 	context.Context
@@ -68,9 +68,9 @@ func (sc *Context) TraceID() string {
 	return sc.Context.Value(TraceIDKey).(string)
 }
 
-// FromContext returns a new AppContext from a context.Context
+// FromContext returns a new Context from a context.Context
 func FromContext(ctx context.Context) Context {
-	appCtx := NewAppContext(ctx)
+	appCtx := NewContext(ctx)
 
 	if traceID, ok := ctx.Value(TraceIDKey).(string); ok {
 		appCtx.SetTraceID(traceID)
@@ -87,8 +87,8 @@ func FromContext(ctx context.Context) Context {
 	return appCtx
 }
 
-// NewContext returns a new AppContext
-func NewAppContext(ctx context.Context) Context {
+// NewContext returns a new Context
+func NewContext(ctx context.Context) Context {
 	ctx = context.WithValue(ctx, TraceIDKey, uuid.NewString())
 	return Context{Context: ctx}
 }

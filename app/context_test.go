@@ -1,4 +1,4 @@
-package appcontext
+package app
 
 import (
 	"context"
@@ -8,10 +8,10 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestNewAppContext(t *testing.T) {
+func TestNewContext(t *testing.T) {
 	parentCtx := context.Background()
 
-	ctx := NewAppContext(parentCtx)
+	ctx := NewContext(parentCtx)
 
 	assert.NotEmpty(t, ctx.TraceID())
 
@@ -57,10 +57,10 @@ func TestFromEmptyContext(t *testing.T) {
 	assert.False(t, checkTenant)
 }
 
-func TestAppContextCancellation(t *testing.T) {
+func TestContextCancellation(t *testing.T) {
 	parentCtx, cancel := context.WithCancel(context.Background())
 
-	ctx := NewAppContext(parentCtx)
+	ctx := NewContext(parentCtx)
 
 	cancel()
 
